@@ -21,18 +21,19 @@
                           <div class="input-group-prepend">
                               <span class="input-group-text"><i class="fas fa-user"></i></span>
                           </div>
-                          <input type="text" class="form-control" placeholder="account number" (change)="acNoChange($event)" id="login_accno" required>
+                          <!-- template referencing variable #acno,#pwd -->
+                          <input type="text" class="form-control" placeholder="account number" #acno id="login_accno" required>
                           
                       </div>
                       <div class="input-group form-group">
                           <div class="input-group-prepend">
                               <span class="input-group-text"><i class="fas fa-key"></i></span>
                           </div>
-                          <input type="password" class="form-control" placeholder="password"  (change)="pwdChange($event)" id="login_password" required>
+                          <input type="password" class="form-control" placeholder="password"  #pwd id="login_password" required>
                       </div>
                       
                       <div class="form-group">
-                          <input type="submit" value="Login" (click)="login()" class="btn float-right login_btn " style="width:50%" >
+                          <input type="submit" value="Login" (click)="login(acno,pwd)" class="btn float-right login_btn " style="width:50%" >
                       </div>
                   </form>
               </div>
