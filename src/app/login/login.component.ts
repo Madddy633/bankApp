@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -19,15 +20,18 @@ export class LoginComponent implements OnInit {
     1002: { acno: 1002, uname: "neev", password: 1002, balance: 500000 }
 
   }
+ 
 
 
-  constructor() { }
+  constructor(private router:Router) { }
 
   ngOnInit(): void {
   }
 //login using $event/two way binding using ng model
   acNoChange(event: any) {
     this.acno = event.target.value
+   
+    
 
 
    }
@@ -45,6 +49,7 @@ export class LoginComponent implements OnInit {
 
                 if (pwd_l == database[acno_l].password) {
                  alert("login success")
+                 this.router.navigateByUrl("home");
                }
                  else { alert("invalid password") }
       }
