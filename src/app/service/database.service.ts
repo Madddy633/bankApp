@@ -36,4 +36,83 @@ register(uname:any,acno:any,password:any){
 }
 
 
+
+//login phase
+login(acno:any,pwd:any) {
+  
+  let database = this.database
+
+  if (acno in database) {
+
+              if (pwd == database[acno].password) {
+              return true
+             }
+               else { 
+                 alert("invalid password")
+                 return false
+              }
+    }
+    else { 
+      alert("invalid account number") 
+      return false
+}
+}
+
+//Deposit
+deposit(acno:any,pwd:any,amount:any){
+ var amt= parseInt(amount);
+ let database=this.database
+ if(acno in database )
+ {
+   if(pwd==database[acno]["password"])
+   {
+     database[acno]["balance"]+=amt
+     return database[acno]["balance"]
+
+   }
+   else{
+     alert("invalid password")
+     return false
+   }
+
+ }
+ else{
+   alert("invalid user name")
+   return false
+ }
+}
+
+
+//withdraw
+
+withdraw(acno:any,pwd:any,amount:any) {
+  
+  var amt= parseInt(amount);
+ let database=this.database
+ if(acno in database )
+ {
+   if(pwd==database[acno]["password"])
+   {
+     if(amt<database[acno]["balance"]){
+
+     database[acno]["balance"]-=amt
+     return database[acno]["balance"]
+    }
+    else{alert("no balance")}
+
+
+   }
+   else{
+     alert("invalid password")
+     return false
+   }
+
+ }
+ else{
+   alert("invalid user name")
+   return false
+ }
+}
+
+
 }

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { DatabaseService } from '../service/database.service';
 
@@ -9,25 +10,27 @@ import { DatabaseService } from '../service/database.service';
 })
 export class RegisterComponent implements OnInit {
 
- 
-  aim = "your banking partner"
-  acnum = "account number please!!"
-  acno = ""
-  pwd = ""
-  uname=""
-
+ //Registration model
+ registrationForm=this.formbuilder.group({
+   uname:[""],
+   acno:[""],
+   pwd:[""]
+  
+ })
   
 
 
-  constructor(private router:Router,private db:DatabaseService) { }
+  constructor(private router:Router,private db:DatabaseService,private formbuilder:FormBuilder) { }
 
   ngOnInit(): void {
   }
 
   register() {
-    var acno=this.acno
-    var uname=this.uname
-    var pwd=this.pwd
+    var acno=this.registrationForm.value.acno
+    var uname=this.registrationForm.value.uname
+    var pwd=this.registrationForm.value.pwd
+    console.log(this.registrationForm.value.pwd,uname=this.registrationForm.value.uname);
+    
     var result=this.db.register(uname,acno,pwd);
     if(result){
       alert("registration successful!!!!!")

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { DatabaseService } from '../service/database.service';
 
 @Component({
   selector: 'app-login',
@@ -13,17 +14,7 @@ export class LoginComponent implements OnInit {
   acno = ""
   pwd = ""
 
-  //creating a data base
-  database: any = {
-    1000: { acno: 1000, uname: "neer", password: 1000, balance: 5000 },
-    1001: { acno: 1001, uname: "neel", password: 1001, balance: 50000 },
-    1002: { acno: 1002, uname: "neev", password: 1002, balance: 500000 }
-
-  }
- 
-
-
-  constructor(private router:Router) { }
+  constructor(private router:Router,private db:DatabaseService) { }
 
   ngOnInit(): void {
   }
@@ -43,17 +34,13 @@ export class LoginComponent implements OnInit {
   login() {
     var acno_l = this.acno;
     var pwd_l = this.pwd;
-    let database = this.database
+    let result = this.db.login(acno_l,pwd_l)
 
-    if (acno_l in database) {
+    if (result) {
 
-                if (pwd_l == database[acno_l].password) {
                  alert("login success")
                  this.router.navigateByUrl("home");
                }
-                 else { alert("invalid password") }
-      }
-      else { alert("invalid username") }
 }
 
 //login using template reference variable
