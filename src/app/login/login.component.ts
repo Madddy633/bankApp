@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { DatabaseService } from '../service/database.service';
 
@@ -8,40 +9,44 @@ import { DatabaseService } from '../service/database.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-
-  aim = "your banking partner"
   acnum = "account number please!!"
-  acno = ""
-  pwd = ""
 
-  constructor(private router:Router,private db:DatabaseService) { }
+  loginform=this.formBuilder.group({
+ acno:['',[Validators.required,Validators.pattern('[0-9]*')]],
+  pwd :['',[Validators.required,Validators.pattern('[a-zA-Z0-9]*')]],
+})
+
+  constructor(private router:Router,private db:DatabaseService, private formBuilder:FormBuilder) { }
 
   ngOnInit(): void {
   }
 //login using $event/two way binding using ng model
-  acNoChange(event: any) {
-    this.acno = event.target.value
+  // acNoChange(event: any) {
+  //   this.loginform.acno = event.target.value
    
     
 
 
-   }
+  //  }
 
-  pwdChange(event: any) {
-    this.pwd = event.target.value
-   }
+  // pwdChange(event: any) {
+  //   this.pwd = event.target.value
+  //  }
   //login phase
   login() {
-    var acno_l = this.acno;
-    var pwd_l = this.pwd;
-    let result = this.db.login(acno_l,pwd_l)
-
+    var acno_l = this.loginform.value.acno;
+    var pwd_l = this.loginform.value.pwd;
+  const result = this.db.login(acno_l,pwd_l)
+if(this.loginform.valid){
     if (result) {
 
                  alert("login success")
                  this.router.navigateByUrl("home");
                }
 }
+else{alert("invalid form")}
+}
+
 
 //login using template reference variable
 

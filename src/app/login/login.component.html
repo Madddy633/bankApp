@@ -16,21 +16,28 @@
                   
               </div>
               <div class="card-body">
-                  <form (ngSubmit)="login()">
+                  <form [formGroup]="loginform" (ngSubmit)="login()">
                       <div class="input-group form-group">
                           <div class="input-group-prepend">
                               <span class="input-group-text"><i class="fas fa-user"></i></span>
                           </div>
                           <!-- template referencing variable #acno,#pwd -->
-                          <input type="text" name="acno" [(ngModel)]="acno" (click)="acNoChange($event)" class="form-control" placeholder="account number"  id="login_accno" required>
+                          <input type="text" name="acno" formControlName="acno" class="form-control" placeholder="account number"  id="login_accno" required>
                           
                       </div>
+
+                      <div *ngIf="((this.loginform.get('acno')?.touched || this.loginform.get('acno')?.dirty) && this.loginform.get('acno')?.errors)"
+                      style="color: red;">invalid account number</div>
+
                       <div class="input-group form-group">
                           <div class="input-group-prepend">
                               <span class="input-group-text"><i class="fas fa-key"></i></span>
                           </div>
-                          <input type="password"  name="pwd" [(ngModel)]="pwd" class="form-control" placeholder="password"  id="login_password" required>
+                          <input type="password"  name="pwd" formControlName="pwd" class="form-control" placeholder="password"  id="login_password" required>
                       </div>
+
+                      <div *ngIf="((this.loginform.get('pwd')?.touched || this.loginform.get('pwd')?.dirty) && this.loginform.get('pwd')?.errors)"
+                      style="color: red;">invalid password</div>
                       
                       <div class="form-group">
                           <input type="submit" value="Login"  class="btn float-right login_btn " style="width:50%" >

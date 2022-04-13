@@ -13,8 +13,8 @@ export class RegisterComponent implements OnInit {
  //Registration model
  registrationForm=this.formbuilder.group({
    uname:["",[Validators.required,Validators.pattern('[a-zA-Z ]*')]],
-   acno:["",Validators.pattern('[0-9]*')],
-   pwd:[""]
+   acno:["",[Validators.required,Validators.pattern('[0-9]*')]],
+   pwd:["",[Validators.required,Validators.pattern('[a-zA-Z0-9 ]*')]]
   
  })
   
