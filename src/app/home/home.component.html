@@ -4,16 +4,25 @@
     <a class="navbar-brand  " href="#" style="color:rgb(85, 98, 237);"><b>&#169; HAFC Bank Pvt.Ltd </b></a>
     <span class="quote text-light">Giving you freedom...</span>
 
-    
+    <button (click)="logOut()" class="btn btn-warning">Log out</button>
+
   </nav>
-  <span class="quote text-light">welcome {{user}}</span>
-  
-  
-  <div class="container col-md-12 mt-3">
+  <h1 style="color: white;">welcome {{user}}</h1>
+  <h4 style="color: white;font-style: italic;">Login Time : {{logindate|date:'short'|uppercase}}</h4>
+  <h2><a routerLink="/transactions">transactins history</a></h2>  
+  <button (click)="deleteAccount()" class="btn btn-danger" style="float: right;margin-right: 100px;">DELETE</button>   
+  <app-deleteconfirm (onCancel)="onCancel()" (onDelete)="onDelete($event)" [item]="acno"></app-deleteconfirm>
+ <!-- animations demo -->
+ <!-- <app-animation></app-animation> -->
+ 
+ 
+ 
+ 
+  <div [ngClass]="acno? 'stylehide':''"  class="container col-md-12 mt-5">
       <div class="d-flex justify-content-center h-100">
           <div class="card">
-              <div class="card-header">
-                  <h3 class="text-center">Deposit</h3>
+              <div class="card-header" >
+                  <h3 appHighlite class="text-center">Deposit</h3>
                   
               </div>
               <div class="card-body">
@@ -68,11 +77,11 @@
 
 
  
-  <div class="container col-md-12 mt-5">
+  <div [ngClass]="acno? 'stylehide':''" class="container col-md-12 mt-5">
     <div class="d-flex justify-content-center h-100">
         <div class="card">
             <div class="card-header">
-                <h3 class="text-center">withdraw</h3>
+                <h3 appHighlite class="text-center">withdraw</h3>
                 
             </div>
 

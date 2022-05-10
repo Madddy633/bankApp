@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { DatabaseService } from '../service/database.service';
 
 @Component({
@@ -11,6 +11,8 @@ import { DatabaseService } from '../service/database.service';
 export class HomeComponent implements OnInit {
 
   user:any
+  logindate:any
+  acno:any
 depositvalidation=this.fb.group({
 
 acno:['',[Validators.required,Validators.pattern('[0-9]*')]],
@@ -22,13 +24,21 @@ acno1:['',[Validators.required,Validators.pattern('[0-9]*')]],
 pwd1:['',[Validators.required,Validators.pattern('[a-zA-Z0-9]*')]],
 amount1:['',[Validators.required,Validators.pattern('[0-9]*')]]
 })
-  constructor(private db:DatabaseService, private fb:FormBuilder) {
+  constructor(private db:DatabaseService, private fb:FormBuilder,private router:Router) {
 
-this.user=this.db.currUser
-
+    this.user=JSON.parse(localStorage.getItem('currentuser')|| '')
+this.logindate=new Date()
    }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+
+// if(!localStorage.getItem("currentAcno"))
+// {
+//   alert("please login")
+//   this.router.navigateByUrl("")
+// }
+
+  }
  
 
   deposit(){
@@ -36,33 +46,93 @@ this.user=this.db.currUser
 var acno=this.depositvalidation.value.acno;
 var pwd=this.depositvalidation.value.pwd;
 var amount=this.depositvalidation.value.amount;
-const result=this.db.deposit(acno,pwd,amount);
+//const result=this.db.deposit(acno,pwd,amount);
 if(this.depositvalidation.valid){
-if(result)
-{
-  alert (amount+"added successfully.....new balance is "+result)
-}
-else{alert("deposit invalid")}
+  this.db.deposit(acno,pwd,amount)
+  .subscribe((result:any)=>{
+    if (result) {
+  
+      alert(result.message)
+      //this.router.navigateByUrl("home");
+    }
+  
+   },
+   (result)=>{
+    alert(result.error.message)
+   })
+  
+     
+  }
+  else{
+    alert("invalid form")
+  }
 }
 
-  }
+  
 
   withdraw(){
     let acno=this.withdrawvalidation.value.acno1;
     let pwd=this.withdrawvalidation.value.pwd1;
 let amount=this.withdrawvalidation.value.amount1;
-const result=this.db.withdraw(acno,pwd,amount);
+//const result=this.db.withdraw(acno,pwd,amount);
+
 if(this.withdrawvalidation.valid){
-if(result)
-{
-  alert (amount+"debited successfully.....new balance is "+result)
+
+  this.db.withdraw(acno,pwd,amount)
+  .subscribe((result:any)=>{
+    if (result) {
+  
+      alert(result.message)
+      //this.router.navigateByUrl("home");
+    }
+  
+   },
+   (result)=>{
+    alert(result.error.message)
+   })
+  
+     
+  }
+  else{
+    alert("invalid form")
+  }
 }
-}
-else{alert("invalid deposit")}
 
 
+
+  //deleteAccount()
+  deleteAccount(){
+    this.acno=JSON.parse(localStorage.getItem("currentacno")||'')
   }
 
-}
+  //logout
+  logOut(){
+    localStorage.removeItem("currentuser")
+    localStorage.removeItem("currentAcno")
+    this.router.navigateByUrl("")
+  }
+
+  onCancel(){
+    this.acno=""
+  }
+  //onDelete($event)
+  onDelete(event:any){
+    this.db.onDelete(event)
+    .subscribe((result:any)=>{
+      if (result) {
+    
+        alert(result.message)
+        this.router.navigateByUrl("");
+      }
+    
+     },
+     (result)=>{
+      alert(result.error.message)
+     })
+    
+       
+    }
+  }
+    
 
 

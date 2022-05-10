@@ -36,15 +36,27 @@ export class LoginComponent implements OnInit {
   login() {
     var acno_l = this.loginform.value.acno;
     var pwd_l = this.loginform.value.pwd;
-  const result = this.db.login(acno_l,pwd_l)
-if(this.loginform.valid){
-    if (result) {
+    if(this.loginform.valid){
+ this.db.login(acno_l,pwd_l)
+ .subscribe((result:any)=>{
+  if (result) {
+localStorage.setItem('currentacno',JSON.stringify(result.currentacno))
+localStorage.setItem('currentuser',JSON.stringify(result.currentuser))
+localStorage.setItem('token',JSON.stringify(result.token))
 
-                 alert("login success")
-                 this.router.navigateByUrl("home");
-               }
+
+    alert(result.message)
+    this.router.navigateByUrl("home");
+  }
+
+ },
+ (result)=>{
+  alert(result.error.message)
+ })
+
+   
 }
-else{alert("invalid form")}
+
 }
 
 

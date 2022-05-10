@@ -31,12 +31,21 @@ export class RegisterComponent implements OnInit {
     var pwd=this.registrationForm.value.pwd
     console.log(this.registrationForm.value.pwd,uname=this.registrationForm.value.uname);
     if(this.registrationForm.valid){
-    var result=this.db.register(uname,acno,pwd);
+      //asynchronous function
+    this.db.register(uname,acno,pwd).subscribe((result:any)=>{
+   
     if(result){
-      alert("registration successful!!!!!")
-      this.router.navigateByUrl("");
+      alert(result.message)
+      this.router.navigateByUrl("")
     }
-    else{alert("acno already exists!!!!")}
+   },
+   (result)=>{
+
+    alert(result.error.message)
+    
+   })
+   
+   
 }
 else{alert("invalid form!!!!!!!!!!!")}
 }
